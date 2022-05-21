@@ -21,12 +21,6 @@ public class BetterReadsApp {
         SpringApplication.run(BetterReadsApp.class, args);
     }
 
-//    @RequestMapping("/user")
-//    public String user(@AuthenticationPrincipal OAuth2User principal) {
-//        System.out.println(principal);
-//        return principal.getAttribute("name");
-//    }
-
     @Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraProperties astraProperties) {
         Path bundle = astraProperties.getSecureConnectBundle().toPath();
