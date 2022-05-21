@@ -27,9 +27,9 @@ public class SearchController {
                 .build()).baseUrl("http://openlibrary.org/search.json").build();
     }
 
-    @GetMapping("/search")
+    @GetMapping(value = "/search")
     public String getSearchResults(@RequestParam String query, Model model) {
-        Mono<SearchResult> resultsMono = webClient.get()
+        Mono<SearchResult> resultsMono = this.webClient.get()
                 .uri("?q={query}", query)
                 .retrieve().bodyToMono(SearchResult.class);
         SearchResult result = resultsMono.block();

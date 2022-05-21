@@ -5,7 +5,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +17,7 @@ public class UserBooksController {
     @Autowired
     UserBooksRepository userBooksRepository;
 
-    @PatchMapping("/addUserBook")
+    @PostMapping("/addUserBook")
     public ModelAndView addBookForUser(@RequestBody MultiValueMap<String, String> formData, @AuthenticationPrincipal OAuth2User principal) {
         if (principal == null || principal.getAttribute("login") == null) {
             return null;
