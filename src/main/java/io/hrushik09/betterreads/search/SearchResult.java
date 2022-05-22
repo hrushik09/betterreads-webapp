@@ -2,6 +2,9 @@ package io.hrushik09.betterreads.search;
 
 import java.util.List;
 
+/**
+ * Represents the structure of the search result returned by the Open Library API.
+ */
 public class SearchResult {
     private int numFound;
     private List<SearchResultBook> docs;

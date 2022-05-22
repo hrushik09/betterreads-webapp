@@ -6,10 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.file.Path;
 
@@ -21,6 +17,9 @@ public class BetterReadsApp {
         SpringApplication.run(BetterReadsApp.class, args);
     }
 
+    /**
+     * Spring Boot uses this bean along with Astra secure bundle to connect to the database
+     */
     @Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraProperties astraProperties) {
         Path bundle = astraProperties.getSecureConnectBundle().toPath();

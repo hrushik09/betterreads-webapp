@@ -10,6 +10,10 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Model representing the books_by_id table in Cassandra.
+ * Stores the book information retrievable by the book ID
+ */
 @Table(value = "book_by_id")
 public class Book {
 
