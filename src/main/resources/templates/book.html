@@ -36,11 +36,19 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title display-1" th:text="${book.name}">Name</h5>
-                        <p class="card-text display-5" th:text="${book.authorNames}">Author name</p>
+                        <h5 class="card-title display-2" th:text="${book.name}">Name</h5>
+                        <p class="card-text display-6" th:text="${book.authorNames}">Author name</p>
                         <p class="card-text" th:text="${book.description}">Book description</p>
                         <p class="card-text">Published Date: <small class="text-muted" th:text="${book.publishedDate}">2020-01-01</small>
                         </p>
+
+                        <div class="card" th:unless="${loginId}">
+                            <div class="card-body">
+                                <h5 class="card-title">Login to track this book</h5>
+                                <p class="card-text">Mark reading dates, completion status and star ratings</p>
+                                <a href="/oauth2/authorization/github" class="btn btn-primary">Login via Github</a>
+                            </div>
+                        </div>
 
                         <form th:if="${loginId}" th:attr="action=@{/addUserBook}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
