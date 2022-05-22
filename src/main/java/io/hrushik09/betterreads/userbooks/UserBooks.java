@@ -7,6 +7,9 @@ import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.time.LocalDate;
 
+/**
+ * Model representing a specific user's interaction with a specific book.
+ */
 @Table(value = "book_by_user_and_bookid")
 public class UserBooks {
 

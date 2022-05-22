@@ -12,6 +12,10 @@ import org.springframework.data.cassandra.core.mapping.Table;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Model representing the books read by a user.
+ * Helps with showing user's recent books in the dashboard page.
+ */
 @Table(value = "books_by_user")
 public class BooksByUser {
 

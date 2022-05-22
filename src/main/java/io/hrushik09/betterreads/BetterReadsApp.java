@@ -21,6 +21,9 @@ public class BetterReadsApp {
         SpringApplication.run(BetterReadsApp.class, args);
     }
 
+    /**
+     * Spring Boot uses this bean along with Astra secure bundle to connect to the database
+     */
     @Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraProperties astraProperties) {
         Path bundle = astraProperties.getSecureConnectBundle().toPath();
