@@ -1,0 +1,16 @@
+spring:
+  config:
+    import: "optional:secrets.properties"
+  application:
+    name: betterreads
+  data:
+    cassandra:
+      schema-action: create-if-not-exists
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+
+server:
+  port: ${PORT:8080}
