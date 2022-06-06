@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import java.nio.file.Paths;
 
 public class Main {
-    @Value("${spring.security.oauth2.client.registration.github.client-id}")
-    private static String id;
+    @Value("${spring.data.cassandra.username}")
+    private static String username;
 
-    @Value("${spring.security.oauth2.client.registration.github.client-secret}")
-    private static String secret;
+    @Value("${spring.data.cassandra.password}")
+    private static String password;
 
     @Value("${spring.data.cassandra.keyspace-name}")
     private static String keyspaceName;
@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         try (CqlSession session = CqlSession.builder()
                 .withCloudSecureConnectBundle(Paths.get(secureConnectBundle))
-                .withAuthCredentials(id, secret)
+                .withAuthCredentials(username, password)
                 .withKeyspace(keyspaceName)
                 .build()) {
         }
