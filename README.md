@@ -1,10 +1,13 @@
 # Better Reads
 
+View the deployed [Website](https://betterreads-web-app.herokuapp.com/).
+
 A highly available and scalable Spring Boot application that can handle millions of data records and thousands of
 users.
 
-This app stores the catalogue of every book ever published in the world. The raw data is taken
-from [Open Library](https://openlibrary.org/) and stored in an Apache Cassandra database hosted on DataStax.
+This app stores the catalogue of every book ever published in the world.
+
+Created a separate Spring Boot app [betterreads-data-loader](https://github.com/hrushik09/betterreads-data-loader) to process over 26 million lines of data from [Open Library](https://openlibrary.org/data) and stored it in Apache Cassandra for fast retrieval.
 
 On homepage, users are requested to login via GitHub to save their reading progress. Users also have the ability to
 search for a book without having to login.
