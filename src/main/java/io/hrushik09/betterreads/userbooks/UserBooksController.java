@@ -30,7 +30,7 @@ public class UserBooksController {
 
     @PostMapping("/addUserBook")
     public ModelAndView addBookForUser(@RequestBody MultiValueMap<String, String> formData, @AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null || principal.getAttribute("login") == null) {
+        if (principal == null || (principal.getAttribute("name") == null && principal.getAttribute("login") == null)) {
             return null;
         }
 
@@ -44,6 +44,9 @@ public class UserBooksController {
         UserBooks userBooks = new UserBooks();
         UserBooksPrimaryKey key = new UserBooksPrimaryKey();
         String userId = principal.getAttribute("login");
+        if (userId == null) {
+            userId = principal.getAttribute("name");
+        }
         key.setUserId(userId);
         key.setBookId(bookId);
         userBooks.setKey(key);

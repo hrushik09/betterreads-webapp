@@ -38,8 +38,12 @@ public class BookController {
 
             model.addAttribute("book", book);
 
-            if (principal != null && principal.getAttribute("login") != null) {
+            if (principal != null && (principal.getAttribute("name") != null || principal.getAttribute("login") != null)) {
                 String userId = principal.getAttribute("login");
+                if (userId == null) {
+                    userId = principal.getAttribute("name");
+                }
+
                 model.addAttribute("loginId", userId);
                 UserBooksPrimaryKey key = new UserBooksPrimaryKey();
                 key.setBookId(bookId);
