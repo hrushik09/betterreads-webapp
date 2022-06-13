@@ -24,11 +24,14 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(@AuthenticationPrincipal OAuth2User principal, Model model) {
-        if (principal == null || principal.getAttribute("login") == null) {
+        if (principal == null || (principal.getAttribute("name") == null && principal.getAttribute("login") == null)) {
             return "index";
         }
 
         String userId = principal.getAttribute("login");
+        if (userId == null) {
+            userId = principal.getAttribute("name");
+        }
         Slice<BooksByUser> booksSlice = booksByUserRepository.findAllById(userId, CassandraPageRequest.of(0, 100));
         List<BooksByUser> booksByUser = booksSlice.getContent();
         booksByUser = booksByUser.stream().distinct().map(book -> {
