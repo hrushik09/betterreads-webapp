@@ -1,5 +1,7 @@
 package io.hrushik09.betterreads.userbooks;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -10,9 +12,10 @@ import java.time.LocalDate;
 /**
  * Model representing a specific user's interaction with a specific book.
  */
+@Getter
+@Setter
 @Table(value = "book_by_user_and_bookid")
 public class UserBooks {
-
     @PrimaryKey
     private UserBooksPrimaryKey key;
 
@@ -31,44 +34,4 @@ public class UserBooks {
     @Column("rating")
     @CassandraType(type = CassandraType.Name.INT)
     private int rating;
-
-    public UserBooksPrimaryKey getKey() {
-        return key;
-    }
-
-    public void setKey(UserBooksPrimaryKey key) {
-        this.key = key;
-    }
-
-    public LocalDate getStartedDate() {
-        return startedDate;
-    }
-
-    public void setStartedDate(LocalDate startedDate) {
-        this.startedDate = startedDate;
-    }
-
-    public LocalDate getCompletedDate() {
-        return completedDate;
-    }
-
-    public void setCompletedDate(LocalDate completedDate) {
-        this.completedDate = completedDate;
-    }
-
-    public String getReadingStatus() {
-        return readingStatus;
-    }
-
-    public void setReadingStatus(String readingStatus) {
-        this.readingStatus = readingStatus;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 }

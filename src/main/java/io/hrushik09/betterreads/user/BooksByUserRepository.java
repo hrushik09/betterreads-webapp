@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BooksByUserRepository extends CassandraRepository<BooksByUser, String> {
-
     Slice<BooksByUser> findAllById(String id, Pageable pageable);
 }

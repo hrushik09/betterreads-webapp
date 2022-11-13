@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class SearchController {
-
-    private final String COVER_IMAGE_ROOT = "http://covers.openlibrary.org/b/id/";
-
+    private final String COVER_IMAGE_ROOT = "https://covers.openlibrary.org/b/id/";
     private final WebClient webClient;
 
     public SearchController(WebClient.Builder webClientBuilder) {
@@ -24,7 +22,7 @@ public class SearchController {
                 .codecs(configurer -> configurer
                         .defaultCodecs()
                         .maxInMemorySize(16 * 1024 * 1024))
-                .build()).baseUrl("http://openlibrary.org/search.json").build();
+                .build()).baseUrl("https://openlibrary.org/search.json").build();
     }
 
     @GetMapping(value = "/search")
@@ -33,24 +31,22 @@ public class SearchController {
                 .uri("?q={query}", query)
                 .retrieve().bodyToMono(SearchResult.class);
         SearchResult result = resultsMono.block();
-        List<SearchResultBook> books = result.getDocs()
-                .stream()
-                .limit(10)
-                .map(bookResult -> {
-                    bookResult.setKey(bookResult.getKey().replace("/works/", ""));
-                    String coverId = bookResult.getCover_i();
-                    if (StringUtils.hasText(coverId)) {
-                        coverId = COVER_IMAGE_ROOT + coverId + "-M.jpg";
-                    } else {
-                        coverId = "/images/no-image.png";
-                    }
-                    bookResult.setCover_i(coverId);
-                    return bookResult;
-                })
-                .collect(Collectors.toList());
-
-        model.addAttribute("searchResults", books);
-
+        if (result != null) {
+            List<SearchResultBook> books = result.getDocs()
+                    .stream()
+                    .limit(10)
+                    .peek(bookResult -> {
+                        bookResult.setKey(bookResult.getKey().replace("/works/", ""));
+                        String coverId = bookResult.getCover_i();
+                        if (StringUtils.hasText(coverId)) {
+                            coverId = COVER_IMAGE_ROOT + coverId + "-M.jpg";
+                        } else {
+                            coverId = "/images/no-image.png";
+                        }
+                        bookResult.setCover_i(coverId);
+                    }).collect(Collectors.toList());
+            model.addAttribute("searchResults", books);
+        }
         return "search";
     }
 }

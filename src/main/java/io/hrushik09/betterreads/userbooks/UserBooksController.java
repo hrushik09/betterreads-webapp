@@ -4,7 +4,7 @@ import io.hrushik09.betterreads.book.Book;
 import io.hrushik09.betterreads.book.BookRepository;
 import io.hrushik09.betterreads.user.BooksByUser;
 import io.hrushik09.betterreads.user.BooksByUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -14,29 +14,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
 public class UserBooksController {
-
-    @Autowired
     UserBooksRepository userBooksRepository;
-
-    @Autowired
     BooksByUserRepository booksByUserRepository;
-
-    @Autowired
     BookRepository bookRepository;
 
     @PostMapping("/addUserBook")
     public ModelAndView addBookForUser(@RequestBody MultiValueMap<String, String> formData, @AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null || (principal.getAttribute("name") == null && principal.getAttribute("login") == null)) {
+        if (principal == null ||
+                (principal.getAttribute("name") == null && principal.getAttribute("login") == null)) {
             return null;
         }
-
         String bookId = formData.getFirst("bookId");
-        Optional<Book> optionalBook = bookRepository.findById(bookId);
-        if (!optionalBook.isPresent()) {
+        Optional<Book> optionalBook = bookRepository.findById(Objects.requireNonNull(bookId));
+        if (optionalBook.isEmpty()) {
             return new ModelAndView("redirect:/");
         }
 
@@ -51,10 +47,10 @@ public class UserBooksController {
         key.setBookId(bookId);
         userBooks.setKey(key);
 
-        int rating = Integer.parseInt(formData.getFirst("rating"));
+        int rating = Integer.parseInt(Objects.requireNonNull(formData.getFirst("rating")));
         String readingStatus = formData.getFirst("readingStatus");
-        userBooks.setStartedDate(LocalDate.parse(formData.getFirst("startDate")));
-        userBooks.setCompletedDate(LocalDate.parse(formData.getFirst("completedDate")));
+        userBooks.setStartedDate(LocalDate.parse(Objects.requireNonNull(formData.getFirst("startDate"))));
+        userBooks.setCompletedDate(LocalDate.parse(Objects.requireNonNull(formData.getFirst("completedDate"))));
         userBooks.setRating(rating);
         userBooks.setReadingStatus(readingStatus);
         userBooksRepository.save(userBooks);

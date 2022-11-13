@@ -3,7 +3,7 @@ package io.hrushik09.betterreads.book;
 import io.hrushik09.betterreads.userbooks.UserBooks;
 import io.hrushik09.betterreads.userbooks.UserBooksPrimaryKey;
 import io.hrushik09.betterreads.userbooks.UserBooksRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -13,32 +13,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
+@AllArgsConstructor
 @Controller
 public class BookController {
-
-    private final String COVER_IMAGE_ROOT = "http://covers.openlibrary.org/b/id/";
-
-    @Autowired
     BookRepository bookRepository;
-
-    @Autowired
     UserBooksRepository userBooksRepository;
 
     @GetMapping("/books/{bookId}")
     public String getBook(@PathVariable String bookId, Model model, @AuthenticationPrincipal OAuth2User principal) {
         Optional<Book> optionalBook = bookRepository.findById(bookId);
         if (optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-
             String coverImageUrl = "/images/no-image.png";
+            Book book = optionalBook.get();
             if (book.getCoverIds() != null && book.getCoverIds().size() > 0) {
+                String COVER_IMAGE_ROOT = "https://covers.openlibrary.org/b/id/";
                 coverImageUrl = COVER_IMAGE_ROOT + book.getCoverIds().get(0) + "-L.jpg";
             }
             model.addAttribute("coverImage", coverImageUrl);
-
             model.addAttribute("book", book);
 
-            if (principal != null && (principal.getAttribute("name") != null || principal.getAttribute("login") != null)) {
+            if (principal != null &&
+                    (principal.getAttribute("name") != null || principal.getAttribute("login") != null)) {
                 String userId = principal.getAttribute("login");
                 if (userId == null) {
                     userId = principal.getAttribute("name");
@@ -55,10 +50,8 @@ public class BookController {
                     model.addAttribute("userBooks", new UserBooks());
                 }
             }
-
             return "book";
         }
-
         return "book-not-found";
     }
 }
