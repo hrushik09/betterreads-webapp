@@ -1,6 +1,6 @@
 # Better Reads
 
-View the deployed [Website](https://betterreads-web-app.herokuapp.com/).
+View the deployed [Website](https://betterreads.up.railway.app/).
 
 A highly available and scalable Spring Boot application that can handle millions of data records and thousands of
 users.
